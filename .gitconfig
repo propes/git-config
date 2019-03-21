@@ -1,0 +1,50 @@
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[alias]
+    pom = push origin master
+    st = status
+    ci = commit
+    cia = commit --amend
+    co = checkout
+    ft = fetch
+    br = branch
+    sb = show-branch
+    cp = cherry-pick
+    staged = diff --cached
+    rb = rebase
+    rbc = rebase --continue
+    rbs = rebase --skip
+    rba = rebase --abort
+    rl = reflog
+    rs = remote show
+    rt = remote
+    ru = remote update
+    rp = remote prune
+    sm = submodule
+    lo = log --oneline
+    last = log -1 HEAD
+    lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
+[user]
+    name = propes
+    email = 
+
