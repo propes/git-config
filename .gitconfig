@@ -20,29 +20,48 @@
     untracked = cyan
 
 [alias]
-    pom = push origin master
-    st = status
-    ci = commit
-    cia = commit --amend
-    co = checkout
-    ft = fetch
+    amend = commit -a --amend
+    # Deletes all branches that have been merged into the default or provided branch
+    bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs git branch -d; }; f"
+    # Switch to default branch, pull latest changes, and delete all branches that have been merged into the default branch
+    bdone = "!f() { DEFAULT=$(git default); git checkout ${1-$DEFAULT} && git up && git bclean ${1-$DEFAULT}; }; f"
     br = branch
-    sb = show-branch
+    brd = branch -d
+    brdd = branch -D
+    ci = commit
+    cia = !git add -A && git commit --amend --no-edit
+    cm = !git add -A && git commit -m
     cp = cherry-pick
-    staged = diff --cached
+    co = checkout
+    cob = checkout -b
+    default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+    ft = fetch
+    last = log -1 HEAD
+    lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+    lo = log --oneline
+    # Prints branches that have been merged into the default or provided branch
+    pclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$"; }; f"
+    pf = push -f
+    pom = push origin master
     rb = rebase
-    rbc = rebase --continue
-    rbs = rebase --skip
     rba = rebase --abort
+    rbc = rebase --continue
+    rbom = "!f() { DEFAULT=$(git default); git fetch && git rebase origin/$DEFAULT; }; f"
+    rbs = rebase --skip
     rl = reflog
+    rp = remote prune
     rs = remote show
     rt = remote
     ru = remote update
-    rp = remote prune
+    save = !git add -A && git commit -m 'savepoint'
+    sb = show-branch
     sm = submodule
-    lo = log --oneline
-    last = log -1 HEAD
-    lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+    st = status
+    staged = diff --cached
+    undo = reset HEAD~1 --mixed
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+    wip = commit -am "wip"
+    wipe = !git add -A && git commit -qm 'wipe savepoint' && git reset HEAD~1 --hard
 
 [user]
     name = propes
